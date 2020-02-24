@@ -27,9 +27,22 @@ module Enumerable
       new_arr = []
       arr = self
       arr.my_each do |i|
-        new_arr.push(i) if yield i
+        puts yield i
       end
       new_arr
+    else
+      puts 'Please enter the block'
+    end
+  end
+
+  def my_all?
+    if block_given?
+      value = nil
+      arr = self
+      arr.my_each do |i|
+        value = true if yield i
+      end
+      value
     else
       puts 'Please enter the block'
     end
@@ -57,5 +70,11 @@ end
 #  my_select
 #   Our Method:
 # my_array.my_select(&:even?)
-# Each_with_index method:
+# select method:
 # my_array.select(&:even?)
+
+#  my_all?
+#   Our Method:
+# my_array.my_all? { |po| po == 2 }
+# all? method:
+# my_array.all? { |po| po == 2 }
