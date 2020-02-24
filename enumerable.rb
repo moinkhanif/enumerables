@@ -60,6 +60,19 @@ module Enumerable
       puts 'Please enter the block'
     end
   end
+
+  def my_none?
+    if block_given?
+      value = false
+      arr = self
+      arr.my_each do |i|
+        value = true unless yield i
+      end
+      value
+    else
+      puts 'Please enter the block'
+    end
+  end
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -95,3 +108,9 @@ end
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 }
 # any? method:
 # p %w[ant bear cat].any? { |word| word.length >= 4 }
+
+#  my_none?
+#   Our Method:
+# p %w{ant bear cat}.my_none? { |word| word.length >= 9 }
+# none? method:
+# p %w{ant bear cat}.none? { |word| word.length >= 9 }
