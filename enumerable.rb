@@ -25,7 +25,8 @@ module Enumerable
   def my_select
     if block_given?
       new_arr = []
-      for i in self do
+      arr = self
+      arr.my_each do |i|
         new_arr.push(i) if yield i
       end
       new_arr
@@ -53,9 +54,8 @@ end
 # Each_with_index method:
 # my_array.each_with_index { |abc, i| p "#{i} : #{abc}" }
 
-# my_select
-#   Our method:
+#  my_select
+#   Our Method:
 # my_array.my_select(&:even?)
-
-# select Method
+# Each_with_index method:
 # my_array.select(&:even?)
