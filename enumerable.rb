@@ -27,7 +27,7 @@ module Enumerable
       new_arr = []
       arr = self
       arr.my_each do |i|
-        puts yield i
+        new_arr.push(i) if yield i
       end
       new_arr
     else
@@ -80,20 +80,30 @@ module Enumerable
     block_count = proc { |i| count += 1 if yield i }
     block_nil = proc { |j| count += 1 if j == num }
     if block_given?
-      # arr = self
-      # count = 0
       arr.my_each(&block_count)
     else
-      # arr = self
-      # count = 0
       arr.each(&block_nil) unless num.nil?
       count = arr.length if num.nil?
     end
     count
   end
+
+  def my_map
+    if block_given?
+      new_arr = []
+      arr = self
+      arr.my_each do |i|
+        new_arr.push(yield i)
+      end
+      new_arr
+    else
+      puts 'Please enter the block'
+    end
+  end
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
+
 # The following are tests for available methods:
 # Simply uncomment the required code to test
 # my_each
@@ -138,3 +148,9 @@ end
 # p my_array.my_count
 # count method:
 # p my_array.count
+
+#  my_map
+#   Our Method:
+# p my_array.my_map { |li| li*4 }
+# map method:
+# p my_array.map { |li| li*4 }
