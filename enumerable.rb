@@ -73,6 +73,24 @@ module Enumerable
       puts 'Please enter the block'
     end
   end
+
+  def my_count(num = nil)
+    arr = self
+    count = 0
+    block_count = proc { |i| count += 1 if yield i }
+    block_nil = proc { |j| count += 1 if j == num }
+    if block_given?
+      # arr = self
+      # count = 0
+      arr.my_each(&block_count)
+    else
+      # arr = self
+      # count = 0
+      arr.each(&block_nil) unless num.nil?
+      count = arr.length if num.nil?
+    end
+    count
+  end
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -114,3 +132,9 @@ end
 # p %w{ant bear cat}.my_none? { |word| word.length >= 9 }
 # none? method:
 # p %w{ant bear cat}.none? { |word| word.length >= 9 }
+
+#  my_count
+#   Our Method:
+# p my_array.my_count
+# count method:
+# p my_array.count
