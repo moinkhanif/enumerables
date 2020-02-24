@@ -47,12 +47,24 @@ module Enumerable
       puts 'Please enter the block'
     end
   end
+
+  def my_any?
+    if block_given?
+      value = false
+      arr = self
+      arr.my_each do |i|
+        value = true if yield i
+      end
+      value
+    else
+      puts 'Please enter the block'
+    end
+  end
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
 # The following are tests for available methods:
 # Simply uncomment the required code to test
-
 # my_each
 #   Our method:
 # my_array.my_each { |abc| p abc }
@@ -77,3 +89,9 @@ end
 # p %w[ant bear cat].my_all? { |word| word.length >= 4 }
 # all? method:
 # p %w[ant bear cat].all? { |word| word.length >= 4 }
+
+#  my_any?
+#   Our Method:
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 }
+# any? method:
+# p %w[ant bear cat].any? { |word| word.length >= 4 }
