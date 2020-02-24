@@ -37,10 +37,10 @@ module Enumerable
 
   def my_all?
     if block_given?
-      value = nil
+      value = true
       arr = self
       arr.my_each do |i|
-        value = true if yield i
+        value = false unless yield i
       end
       value
     else
@@ -50,7 +50,6 @@ module Enumerable
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
-
 # The following are tests for available methods:
 # Simply uncomment the required code to test
 
@@ -75,6 +74,6 @@ end
 
 #  my_all?
 #   Our Method:
-# my_array.my_all? { |po| po == 2 }
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 }
 # all? method:
-# my_array.all? { |po| po == 2 }
+# p %w[ant bear cat].all? { |word| word.length >= 4 }
