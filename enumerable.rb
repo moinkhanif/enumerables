@@ -186,3 +186,10 @@ end
 #  multiply_els
 #   Our Method:
 # p multiply_els(my_array)
+
+#  my_map with proc or block
+# test_proc = proc { |n| n * 7 }
+#   Our Method:
+# p my_array.my_map(&test_proc)
+# map method:
+# p my_array.map(&test_proc)
