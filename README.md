@@ -20,8 +20,9 @@ We included our own methods in the extended Enumerable module:
 *  #my_any?
 *  #my_none?
 *  #my_count
-*  #my_map
+*  #my_map - able to take in proc and/or a block
 *  #my_inject
+*  #multiply_els to test #my_inject
 
 ## Technologies Used
 
