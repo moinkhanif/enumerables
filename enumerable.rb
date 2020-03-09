@@ -194,4 +194,4 @@ end
 # p my_array.my_map(&test_proc).my_map { |li| li*4 }
 # map method:
 # p my_array.map(&test_proc)
-# p my_array.map(&test_proc).map { |li| li*4 }
+p my_array.map(&test_proc).map { |li| li*4 }
