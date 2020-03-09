@@ -1,4 +1,4 @@
-# rubocop:disable Style/CaseEquality, Style/For, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective
+# rubocop:disable Style/CaseEquality, Style/For, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective, Metrics/ModuleLength
 module Enumerable
   def my_each
     if block_given?
@@ -100,6 +100,19 @@ module Enumerable
       puts 'Please enter the block'
     end
   end
+
+  def my_inject(initial = nil)
+    if block_given?
+      arr = self
+      result = initial ? 0 : initial
+      arr.my_each do |i|
+        result = yield(result, i)
+      end
+      result
+    else
+      puts 'Please enter the block'
+    end
+  end
 end
 
 # my_array = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -154,3 +167,9 @@ end
 # p my_array.my_map { |li| li*4 }
 # map method:
 # p my_array.map { |li| li*4 }
+
+#  my_inject
+#   Our Method:
+# p my_array.my_inject(5) { | sum, num | sum * num }
+# inject method:
+# p my_array.inject(5) { | sum, num | sum * num }
