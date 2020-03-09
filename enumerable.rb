@@ -104,9 +104,14 @@ module Enumerable
   def my_inject(initial = nil)
     if block_given?
       arr = self
-      result = initial ? 0 : initial
+      # result = 0 if initial.nil?
+      result = initial
       arr.my_each do |i|
-        result = yield(result, i)
+        result = if result.nil?
+                   i
+                 else
+                   yield(result, i)
+                 end
       end
       result
     else
@@ -115,7 +120,11 @@ module Enumerable
   end
 end
 
-# my_array = [1, 2, 3, 4, 5, 6, 7, 8]
+def multiply_els(arr_multiply)
+  arr_multiply.my_inject { |multi, num| multi * num }
+end
+
+# my_array = [7, 2, 3, 4, 5, 6, 7, 8]
 
 # The following are tests for available methods:
 # Simply uncomment the required code to test
@@ -170,6 +179,10 @@ end
 
 #  my_inject
 #   Our Method:
-# p my_array.my_inject(5) { | sum, num | sum * num }
+# p my_array.my_inject(5) { |sum, num| sum * num }
 # inject method:
-# p my_array.inject(5) { | sum, num | sum * num }
+# p my_array.inject(5) { |sum, num| sum * num }
+
+#  multiply_els
+#   Our Method:
+# p multiply_els(my_array)
