@@ -57,30 +57,42 @@ module Enumerable
     value
   end
 
-  def my_any?
+  def my_any?(all_arg = nil)
+    arr = self
+    value = false
     if block_given?
-      value = false
-      arr = self
       arr.my_each do |i|
         value = true if yield i
       end
-      value
+    elsif all_arg.nil?
+      arr.my_each { |i| value = true if i }
+    elsif all_arg.class == Class
+      arr.my_each { |i| value = true if i.class == all_arg }
+    elsif all_arg.class == Regexp
+      arr.my_each { |i| value = true if i =~ all_arg }
     else
-      puts 'Please enter the block'
+      arr.my_each { |i| value = true if i == all_arg && i.class == all_arg.class }
     end
+    value
   end
 
-  def my_none?
+  def my_none?(all_arg = nil)
+    arr = self
+    value = true
     if block_given?
-      value = false
-      arr = self
       arr.my_each do |i|
-        value = true unless yield i
+        value = false if yield i
       end
-      value
+    elsif all_arg.nil?
+      arr.my_each { |i| value = false if i }
+    elsif all_arg.class == Class
+      arr.my_each { |i| value = false if i.class == all_arg }
+    elsif all_arg.class == Regexp
+      arr.my_each { |i| value = false if i =~ all_arg }
     else
-      puts 'Please enter the block'
+      arr.my_each { |i| value = false if i == all_arg && i.class == all_arg.class }
     end
+    value
   end
 
   def my_count(num = nil)
@@ -190,12 +202,14 @@ end
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 }
 # any? method:
 # p %w[ant bear cat].any? { |word| word.length >= 4 }
+# p ['cat',2,32,].my_any?('cat')
 
 #  my_none?
 #   Our Method:
 # p %w{ant bear cat}.my_none? { |word| word.length >= 9 }
 # none? method:
 # p %w{ant bear cat}.none? { |word| word.length >= 9 }
+# p ['hello','milk','milo'].my_none?(/z/)
 
 #  my_count
 #   Our Method:
