@@ -1,24 +1,27 @@
-# rubocop:disable Style/CaseEquality, Style/For, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective, Metrics/ModuleLength
+# rubocop:disable Style/CaseEquality, Style/For, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective, Metrics/ModuleLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
 module Enumerable
   def my_each
+    arr = self
     if block_given?
-      for i in self do
+      for i in arr do
         yield i
       end
     else
-      puts 'Please enter the block'
+      arr.to_enum
     end
   end
 
   def my_each_with_index
+    arr = self
     if block_given?
       j = 0
-      for i in self do
+      for i in arr do
         yield i, j
         j += 1
       end
     else
-      puts 'Please enter the block'
+      arr.to_enum
     end
   end
 
@@ -31,21 +34,27 @@ module Enumerable
       end
       new_arr
     else
-      puts 'Please enter the block'
+      arr.to_enum
     end
   end
 
-  def my_all?
+  def my_all?(all_arg = nil)
+    arr = self
+    value = true
     if block_given?
-      value = true
-      arr = self
       arr.my_each do |i|
         value = false unless yield i
       end
-      value
+    elsif all_arg.nil?
+      arr.my_each { |i| value = false unless i }
+    elsif all_arg.class == Class
+      arr.my_each { |i| value = false unless i.class == all_arg }
+    elsif all_arg.class == Regexp
+      arr.my_each { |i| value = false unless i =~ all_arg }
     else
-      puts 'Please enter the block'
+      arr.my_each { |i| value = false unless i == all_arg && i.class == all_arg.class }
     end
+    value
   end
 
   def my_any?
@@ -97,14 +106,13 @@ module Enumerable
       end
       new_arr
     else
-      puts 'Please enter the block'
+      arr.to_enum
     end
   end
 
-  def my_inject(initial = nil)
-    if block_given?
-      arr = self
-      # result = 0 if initial.nil?
+  def my_inject(initial = nil, symbo = nil)
+    arr = self
+    if block_given? && symbo.nil?
       result = initial
       arr.my_each do |i|
         result = if result.nil?
@@ -113,10 +121,28 @@ module Enumerable
                    yield(result, i)
                  end
       end
-      result
     else
-      puts 'Please enter the block'
+      result = nil
+      if (initial.class != Symbol && symbo.nil?) && initial.class == Integer
+        warn "#{initial} is not a symbol nor a string"
+        abort
+      elsif initial.class == Symbol
+        if initial == :+
+          result = arr.my_inject { |sum, num| sum + num }
+        elsif initial == :*
+          result = arr.my_inject { |sum, num| sum * num }
+        elsif initial == :-
+          result = arr.my_inject { |sum, num| sum - num }
+        elsif initial == :/
+          result = arr.my_inject { |sum, num| sum / num }
+        end
+      elsif initial.class == Integer && symbo.class == Symbol
+        arr1 = arr.to_a
+        arr1.unshift(initial)
+        result = arr1.my_inject(symbo)
+      end
     end
+    result
   end
 end
 
@@ -152,6 +178,12 @@ end
 # p %w[ant bear cat].my_all? { |word| word.length >= 4 }
 # all? method:
 # p %w[ant bear cat].all? { |word| word.length >= 4 }
+# p my_array.my_all?
+# p [1, true, 'hi', []].my_all?
+# p Integer.class
+# p [1,2,1].my_all?(Integer)
+# p [3,3,3,3].my_all?(4)
+# p true.class
 
 #  my_any?
 #   Our Method:
@@ -179,9 +211,9 @@ end
 
 #  my_inject
 #   Our Method:
-# p my_array.my_inject(5) { |sum, num| sum * num }
+# p my_array.my_inject(10) { |sum, num| sum * num }
 # inject method:
-# p my_array.inject(5) { |sum, num| sum * num }
+# p my_array.inject(2,2,:*) { |sum, num| sum * num }
 
 #  multiply_els
 #   Our Method:
@@ -195,3 +227,17 @@ end
 # map method:
 # p my_array.map(&test_proc)
 # p my_array.map(&test_proc).map { |li| li*4 }
+# p [1, 9, 8, 7, 5, 6].inject(:*)
+# p (5..10).my_inject(5)
+# p (5..10).inject(2,:*) {|sum,mum|
+#   puts "sum #{sum.class}"
+#   puts "num #{mum}"
+#   sum * mum}
+# p (5..10).inject(2)
+# p (5..10).my_inject(2)
+# {|sum, num| sum + num}
+# p (5..10).inject(2, :*)
+# p (5..10).inject("2")
+# p (5..10).inject(:+)
+# raise TypeError.new "This is an exception"
+# print :* * 5
