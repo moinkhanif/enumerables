@@ -1,8 +1,10 @@
 AllCops:
+  EnabledByDefault: true
   Exclude:
     - "README.md"
     - "Guardfile"
     - "Rakefile"
+    - "Gemfile"
 
   DisplayCopNames: true
 
@@ -36,6 +38,14 @@ Style/HashTransformKeys:
   Enabled: false
 Style/HashTransformValues:
   Enabled: false
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+Style/Copyright:
+  Enabled: false
+Style/DocumentationMethod:
+  Enabled: false
+Style/MissingElse:
+  Enabled: false
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
@@ -44,3 +54,6 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
+
+Lint/NumberConversion:
+  Enabled: false
