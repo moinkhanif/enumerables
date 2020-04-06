@@ -5,6 +5,7 @@ AllCops:
     - "Guardfile"
     - "Rakefile"
     - "Gemfile"
+    - 'my.rb'
 
   DisplayCopNames: true
 
