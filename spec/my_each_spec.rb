@@ -18,6 +18,9 @@ describe Enumerable do
       it 'does not overwrite input array' do
         expect(input_array.my_each { |x| x**2 }).to eql(input_array)
       end
+      # it "iterates over a hash, but does not overwrite" do
+      #  expect(input_hash.my_each {|key, value| value.reverse()}).to eql(input_hash)
+      # end
     end
   end
 end
