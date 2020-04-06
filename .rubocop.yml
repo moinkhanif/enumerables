@@ -1,5 +1,4 @@
 AllCops:
-  EnabledByDefault: false
   Exclude:
     - "README.md"
     - "Guardfile"
