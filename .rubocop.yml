@@ -30,6 +30,8 @@ Style/DefWithParentheses:
   Enabled: false
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
+Style/ANewCop:
+  Enabled: false
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
@@ -38,3 +40,4 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
+
