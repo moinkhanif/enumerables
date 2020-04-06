@@ -15,4 +15,10 @@ describe '#my_all?' do
   it 'returns true for an empty array' do
     expect([].my_all?).to eql(true)
   end
+  context 'given no block' do
+    it 'returns an enumerator' do
+      input_array = [1, 3, 5, 7]
+      expect(input_array.my_all?).to eql(true)
+    end
+  end
 end
