@@ -127,11 +127,12 @@ module Enumerable
     if block_given? && symbo.nil?
       result = initial
       arr.my_each do |i|
-        result = if result.nil?
-                   i
-                 else
-                   yield(result, i)
-                 end
+        result =
+          if result.nil?
+            i
+          else
+            yield(result, i)
+          end
       end
     else
       result = nil
